@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="en" class="light">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cstyle%3E.bg %7B fill: %23204870; %7D .fg %7B fill: %233d85c6; stroke: %233d85c6; %7D @media (prefers-color-scheme: dark) %7B .bg %7B fill: %2316324f; %7D .fg %7B fill: %2385b5e3; stroke: %2385b5e3; %7D %7D%3C/style%3E%3Ccircle cx='24' cy='24' r='22' class='bg'/%3E%3Cg class='fg' stroke-width='3'%3E%3Cline x1='24' y1='14' x2='15' y2='31' /%3E%3Cline x1='15' y1='31' x2='33' y2='31' /%3E%3Cline x1='33' y1='31' x2='24' y2='14' /%3E%3C/g%3E%3Ccircle cx='24' cy='14' r='5' class='fg'/%3E%3Ccircle cx='15' cy='31' r='5' class='fg'/%3E%3Ccircle cx='33' cy='31' r='5' class='fg'/%3E%3C/svg%3E" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prohire Employment | Human-in-the-Loop Employment</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Poppins', 'sans-serif'],
+            },
+            colors: {
+              'primary': {
+                '50': '#f2f7fc',
+                '100': '#e6eff9',
+                '200': '#cce0f3',
+                '300': '#b3d0ee',
+                '400': '#85b5e3',
+                '500': '#5799d8',
+                '600': '#3d85c6',
+                '700': '#3371ab',
+                '800': '#295d8f',
+                '900': '#204870',
+                '950': '#16324f'
+              },
+            },
+            animation: {
+                'gradient-bg': 'gradient-bg 15s ease infinite',
+            },
+            keyframes: {
+                'gradient-bg': {
+                    '0%, 100%': { backgroundPosition: '0% 50%' },
+                    '50%': { backgroundPosition: '100% 50%' },
+                }
+            }
+          },
+        },
+      }
+    </script>
+     <style>
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .nav-link.active {
+          @apply text-primary-600 dark:text-primary-400;
+        }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.1.1",
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.8.0",
+    "react/": "https://esm.sh/react@^19.1.1/",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.1/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 font-sans antialiased">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
