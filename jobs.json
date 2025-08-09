@@ -1,127 +1,19 @@
 [
-  {
-    "id": 1,
-    "title": "General Labour",
-    "company": "Staffmax Staffing & Recruiting",
-    "location": "Brampton, ON",
-    "type": "Full-time",
-    "description": "Staffmax is hiring for General Labour in Brampton.",
-    "responsibilities": [
-      "Manual lifting of automotive parts (up to 35 pounds)",
-      "Continuous walking and standing",
-      "Regular bending, reaching, stooping, grasping, and manual dexterity",
-      "Follow instructions, rules, and regulations",
-      "Maintain safety awareness",
-      "Squat, kneel, twist, turn, and stand/walk for most of the day",
-      "Work safely in a team-based environment"
-    ],
-    "qualifications": [
-      "Speak and read English",
-      "Verbal and written communication skills",
-      "Ability to work shifts and mandatory weekday/weekend overtime",
-      "Ability to work individually or in a team"
-    ]
-  },
-  {
-    "id": 2,
-    "title": "General Labourer",
-    "company": "N/A",
-    "location": "Toronto, ON",
-    "type": "Full-time",
-    "description": "Seeking a general labourer with physical fitness and construction experience.",
-    "responsibilities": [
-      "Dig",
-      "Run wheelbarrows",
-      "Mix cement",
-      "Move materials"
-    ],
-    "qualifications": [
-      "Minimum 1 year experience",
-      "Ability to communicate in English",
-      "Physically fit, able to carry 100 pounds for 25 yards"
-    ]
-  },
-  {
-    "id": 3,
-    "title": "Roofing Labourer",
-    "company": "N/A",
-    "location": "Seeley's Bay, ON",
-    "type": "Full-time",
-    "description": "Seeking a dedicated and hardworking individual for flat roofing labour.",
-    "responsibilities": [
-      "Perform a variety of tasks that support roofing operations"
-    ],
-    "qualifications": [
-      "Dedicated and hardworking"
-    ]
-  },
-  {
-    "id": 4,
-    "title": "General Labour",
-    "company": "Kuehne+Nagel",
-    "location": "Mississauga, ON",
-    "type": "Full-time",
-    "description": "Seeking experienced General Labour Professionals for warehouse operations.",
-    "responsibilities": [
-      "Receiving, picking, packing, and shipping customer orders",
-      "Operate RF scanners and use warehouse management systems"
-    ],
-    "qualifications": [
-      "Experience in general labour work"
-    ]
-  },
-  {
-    "id": 5,
-    "title": "General Labour",
-    "company": "Maple Leaf Foods",
-    "location": "Mississauga, ON",
-    "type": "Full-time",
-    "description": "Maple Leaf Foods is hiring for full-time shifts.",
-    "responsibilities": [],
-    "qualifications": []
-  },
-  {
-    "id": 6,
-    "title": "Demolition Labourer",
-    "company": "Maverick Site Solutions Inc.",
-    "location": "Toronto, ON",
-    "type": "Full-time",
-    "description": "Seeking a reliable and hardworking demolition labourer.",
-    "responsibilities": [],
-    "qualifications": []
-  },
-  {
-    "id": 7,
-    "title": "General Labour (Construction, Forklift Operator)",
-    "company": "N/A",
-    "location": "Ontario, Canada",
-    "type": "Full-time",
-    "description": "Urgent hiring for general labour positions including construction and forklift operation.",
-    "responsibilities": [],
-    "qualifications": []
-  },
-  {
-    "id": 8,
-    "title": "General Labourer",
-    "company": "N/A",
-    "location": "Ontario, Canada",
-    "type": "Full-time",
-    "description": "Looking for reliable hard workers.",
-    "responsibilities": [],
-    "qualifications": [
-      "Experience in moving, heavy lifting, or general labour"
-    ]
-  },
-  {
-    "id": 9,
-    "title": "Construction Labourer",
-    "company": "N/A",
-    "location": "Bracebridge, ON",
-    "type": "Full-time",
-    "description": "General duties on and around jobsite with wage depending on experience. Pickup and drop-off available at certain locations.",
-    "responsibilities": [
-      "Perform general duties on and around jobsite"
-    ],
-    "qualifications": []
-  }
+{"id":1,"title":"General Labour","company":"Staffmax Staffing & Recruiting","location":"Brampton, ON","type":"Full-time","description":"Staffmax is hiring for General Labour in Brampton.","responsibilities":["Manual lifting of automotive parts (up to 35 pounds)","Continuous walking and standing","Regular bending, reaching, stooping, grasping, and manual dexterity","Follow instructions, rules, and regulations","Maintain safety awareness","Squat, kneel, twist, turn, and stand/walk for most of the day","Work safely in a team-based environment"],"qualifications":["Speak and read English","Verbal and written communication skills","Ability to work shifts and mandatory weekday/weekend overtime","Ability to work individually or in a team"]},
+{"id":2,"title":"General Labourer","company":"N/A","location":"Toronto, ON","type":"Full-time","description":"Seeking a general labourer with physical fitness and construction experience.","responsibilities":["Dig","Run wheelbarrows","Mix cement","Move materials"],"qualifications":["Minimum 1 year experience","Ability to communicate in English","Physically fit, able to carry 100 pounds for 25 yards"]},
+{"id":3,"title":"Roofing Labourer","company":"N/A","location":"Seeley's Bay, ON","type":"Full-time","description":"Seeking a dedicated and hardworking individual for flat roofing labour.","responsibilities":["Perform a variety of tasks that support roofing operations"],"qualifications":["Dedicated and hardworking"]},
+{"id":4,"title":"General Labour","company":"Kuehne+Nagel","location":"Mississauga, ON","type":"Full-time","description":"Seeking experienced General Labour Professionals for warehouse operations.","responsibilities":["Receiving, picking, packing, and shipping customer orders","Operate RF scanners and use warehouse management systems"],"qualifications":["Experience in general labour work"]},
+{"id":5,"title":"General Labour","company":"Maple Leaf Foods","location":"Mississauga, ON","type":"Full-time","description":"Maple Leaf Foods is hiring for full-time shifts.","responsibilities":[],"qualifications":[]},
+{"id":6,"title":"Demolition Labourer","company":"Maverick Site Solutions Inc.","location":"Toronto, ON","type":"Part-time, Full-time","description":"Seeking a reliable and hardworking demolition labourer.","responsibilities":[],"qualifications":[]},
+{"id":7,"title":"General Labour (Construction, Forklift Operator)","company":"N/A","location":"Ontario, Canada","type":"Part-time","description":"Urgent hiring for general labour positions including construction and forklift operation.","responsibilities":[],"qualifications":[]},
+{"id":8,"title":"General Labourer","company":"N/A","location":"Ontario, Canada","type":"Full-time","description":"Looking for reliable hard workers.","responsibilities":[],"qualifications":["Experience in moving, heavy lifting, or general labour"]},
+{"id":9,"title":"Construction Labourer","company":"N/A","location":"Bracebridge, ON","type":"Full-time","description":"General duties on and around jobsite with wage depending on experience. Pickup and drop-off available at certain locations.","responsibilities":["Perform general duties on and around jobsite"],"qualifications":[]},
+{"id":10,"title":"Labourer","company":"JDL Builders Inc.","location":"Toronto, ON","type":"Full-time","description":"Full Time Position working in GTA and York Region on various job sites including office buildings, corporate spaces, multi-residential low-rise, commercial retail, and industrial buildings. Requires diverse skill set to complete various tasks and scopes of work.","responsibilities":["Work with below grade waterproof membranes","Perform small masonry repairs","Work with cement, finish and cure concrete","Work at heights and below grade","Minor pipe repairs","Use form work systems and false work","Tarp and heat areas","Organize site and maintain equipment"],"qualifications":["Minimum 12 years full-time experience","Ability to communicate effectively in English","Strong communication skills in English"]},
+{"id":11,"title":"Shipping & Warehousing Job","company":"N/A","location":"Toronto, ON","type":"Contract","description":"Hiring for a Shipping & Warehousing role.","responsibilities":["Packing","Loading/Unloading","Organizing shipments"],"qualifications":[]},
+{"id":12,"title":"Masonry Labourer Needed","company":"N/A","location":"City of Toronto, ON","type":"Temporary, Contract","description":"Need an able-bodied worker for masonry labour. Must have a truck. Will pay Monday to Friday, gas plus $25/hr.","responsibilities":["Demo","Scaffold work","Use a cement mixer"],"qualifications":["Able-bodied","Have a truck","Experience in demo, scaffold work, and mixer use"]},
+{"id":13,"title":"General Labour / Warehouse","company":"Labour Source","location":"Toronto, ON","type":"Temporary","description":"Day shift warehouse role paying $20/hour to start.","responsibilities":[],"qualifications":[]},
+{"id":14,"title":"Helpers for General Labour Job","company":"N/A","location":"Don Mills Finch, Toronto, ON","type":"Temporary","description":"Need helpers for backyard cleaning today. $20/hr cash. 5-hour job. Lunch and drinks provided.","responsibilities":["Backyard cleaning"],"qualifications":[]},
+{"id":15,"title":"Shipping & Warehousing Job","company":"N/A","location":"GTA, ON","type":"Full-time","description":"Shipping and warehousing role involving packing, loading/unloading, and organizing shipments.","responsibilities":["Packing","Loading/Unloading","Organizing shipments"],"qualifications":[]},
+{"id":16,"title":"General Labour","company":"GTA Landscaping","location":"Township of King, ON","type":"Full-time","description":"Operating landscaping equipment, heavy lifting, cleanup, and general manual labour.","responsibilities":["Operate landscaping equipment","Perform heavy lifting","Cleanup and manual labour tasks"],"qualifications":["Physically fit and able to lift heavy items","Strong work ethic and good attitude","Punctual and reliable"]},
+{"id":17,"title":"General Labour","company":"HCM Staffing Solutions","location":"Toronto, Vaughan, Concord, Mississauga, Brampton","type":"Full-time","description":"Looking to fill immediate openings for general labour and production positions across the GTA. Positions available on day, afternoon, and night shifts.","responsibilities":["Load and unload materials and equipment","Operate machinery and equipment","Lift 20-50 pounds","Collect trash and waste to keep site clean","Follow supervisor instructions","Handle tools and materials"],"qualifications":["Minimum 6 months work experience","Willingness to learn new skills","Able to work 5 days/week","Reliable transportation","CSA approved safety footwear","Positive attitude","Punctual","Able to stand long hours","Experience with RF scanner","Basic computer literacy"]}
 ]
