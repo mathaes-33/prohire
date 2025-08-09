@@ -1,9 +1,10 @@
 
 
+
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import { HashRouter, Routes, Route, Outlet, useLocation, Link, NavLink } from 'react-router-dom';
 import {
-  HomePage, JobsPage, JobDetailPage, EmployersPage, JobSeekersPage, AboutPage, ContactPage, NotFoundPage
+  HomePage, JobsPage, JobDetailPage, EmployersPage, JobSeekersPage, AboutPage, ContactPage, NotFoundPage, ContactSuccessPage
 } from './pages';
 import { ScrollToTopButton } from './components';
 
@@ -272,6 +273,7 @@ const App: React.FC = () => {
             <Route path="job-seekers" element={<JobSeekersPage />} />
             <Route path="about" element={<AboutPage />} />
             <Route path="contact" element={<ContactPage />} />
+            <Route path="contact-success" element={<ContactSuccessPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
