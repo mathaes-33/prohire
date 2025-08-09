@@ -1,11 +1,65 @@
 
 
-import React from 'react';
+import React, { useState, useEffect, createContext, useContext } from 'react';
 import { HashRouter, Routes, Route, Outlet, useLocation, Link, NavLink } from 'react-router-dom';
 import {
   HomePage, JobsPage, JobDetailPage, EmployersPage, JobSeekersPage, AboutPage, ContactPage, NotFoundPage
 } from './pages';
 import { ScrollToTopButton } from './components';
+
+// This will be available globally from the script in index.html
+declare const netlifyIdentity: any;
+
+interface AuthContextType {
+  user: any;
+  login: () => void;
+  logout: () => void;
+}
+
+const AuthContext = createContext<AuthContextType | null>(null);
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};
+
+const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    if (typeof netlifyIdentity !== 'undefined') {
+        const handleInit = (user: any) => { if(isMounted) setUser(user); };
+        const handleLogin = (user: any) => { if(isMounted) { setUser(user); netlifyIdentity.close(); }};
+        const handleLogout = () => { if(isMounted) setUser(null); };
+
+        netlifyIdentity.on('init', handleInit);
+        netlifyIdentity.on('login', handleLogin);
+        netlifyIdentity.on('logout', handleLogout);
+
+        netlifyIdentity.init();
+    }
+    return () => { isMounted = false; /* Basic cleanup for async operations */ };
+  }, []);
+
+  const login = () => {
+    if (typeof netlifyIdentity !== 'undefined') netlifyIdentity.open();
+  };
+
+  const logout = () => {
+    if (typeof netlifyIdentity !== 'undefined') netlifyIdentity.logout();
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
 
 const navLinks = [
   { path: '/jobs', label: 'Jobs' },
@@ -23,6 +77,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ currentTheme, toggleTheme }) => {
   const [isMenuOpen, setMenuOpen] = React.useState(false);
   const location = useLocation();
+  const { user, login, logout } = useAuth();
 
   React.useEffect(() => {
     setMenuOpen(false);
@@ -43,7 +98,7 @@ const Header: React.FC<HeaderProps> = ({ currentTheme, toggleTheme }) => {
     <header role="banner" className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm dark:shadow-slate-800">
       <nav role="navigation" className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          <Link to="/" className="flex items-center space-x-2">
+          <Link to="/" className="flex-shrink-0 flex items-center space-x-2">
             <svg className="w-10 h-10 text-primary-600 dark:text-primary-400" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="24" cy="24" r="22" className="fill-primary-900 dark:fill-primary-950"/>
                 <g stroke="currentColor" strokeWidth="3"><line x1="24" y1="14" x2="15" y2="31"></line><line x1="15" y1="31" x2="33" y2="31"></line><line x1="33" y1="31" x2="24" y2="14"></line></g>
@@ -54,30 +109,66 @@ const Header: React.FC<HeaderProps> = ({ currentTheme, toggleTheme }) => {
                 <span className="text-slate-800 dark:text-white">Employment</span>
             </span>
           </Link>
+
           <div className="hidden md:flex items-center space-x-1 lg:space-x-6">
             {navLinks.map(link => <NavLinkItem key={link.path} path={link.path}>{link.label}</NavLinkItem>)}
           </div>
-          <div className="flex items-center space-x-2">
-            <button onClick={toggleTheme} aria-label="Toggle dark mode" className="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
+          
+          <div className="flex items-center">
+             <div className="hidden md:flex items-center">
+                 {user ? (
+                    <div className="flex items-center space-x-4">
+                        <span className="text-sm font-medium text-slate-700 dark:text-slate-300 whitespace-nowrap">
+                           Hi, {user.user_metadata?.full_name?.split(' ')[0] || user.email.split('@')[0]}
+                        </span>
+                        <button onClick={logout} className="px-3 py-2 text-sm font-semibold rounded-md text-primary-600 dark:text-primary-400 hover:bg-primary-100 dark:hover:bg-slate-800 transition-colors">
+                            Logout
+                        </button>
+                    </div>
+                 ) : (
+                    <button onClick={login} className="px-4 py-2 text-sm font-semibold rounded-md bg-primary-600 text-white hover:bg-primary-700 transition-colors shadow-sm">
+                        Login / Sign Up
+                    </button>
+                 )}
+            </div>
+            <button onClick={toggleTheme} aria-label="Toggle dark mode" className="ml-4 p-2 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
               {currentTheme === 'light' ? 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" /></svg>
                 : 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M12 21a9 9 0 110-18 9 9 0 010 18z" /></svg>
               }
             </button>
-            <button onClick={() => setMenuOpen(!isMenuOpen)} aria-controls="mobile-menu" aria-expanded={isMenuOpen} className="p-2 rounded-md md:hidden text-slate-500 dark:text-slate-400">
-              <span className="sr-only">Open main menu</span>
-              {isMenuOpen ?
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                :
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-16 6h16" /></svg>
-              }
-            </button>
+            <div className="md:hidden ml-2">
+                <button onClick={() => setMenuOpen(!isMenuOpen)} aria-controls="mobile-menu" aria-expanded={isMenuOpen} className="p-2 rounded-md text-slate-500 dark:text-slate-400">
+                  <span className="sr-only">Open main menu</span>
+                  {isMenuOpen ?
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                    :
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-16 6h16" /></svg>
+                  }
+                </button>
+            </div>
           </div>
         </div>
         {isMenuOpen && (
           <div className="md:hidden pb-4 space-y-1">
              {navLinks.map(link => <NavLinkItem key={link.path} path={link.path} className="block">{link.label}</NavLinkItem>)}
+              <div className="pt-4 mt-4 border-t border-slate-200 dark:border-slate-700 px-2">
+                {user ? (
+                    <div className="space-y-3">
+                         <span className="block px-2 text-sm font-medium text-slate-700 dark:text-slate-300">
+                            Hi, {user.user_metadata?.full_name?.split(' ')[0] || user.email.split('@')[0]}
+                         </span>
+                         <button onClick={logout} className="w-full text-left px-3 py-2 rounded-md text-sm font-semibold text-primary-600 dark:text-primary-400 hover:bg-primary-100 dark:hover:bg-slate-800 transition-colors">
+                            Logout
+                         </button>
+                    </div>
+                ) : (
+                    <button onClick={login} className="w-full text-left px-3 py-2 rounded-md text-sm font-semibold bg-primary-600 text-white hover:bg-primary-700 transition-colors">
+                        Login / Sign Up
+                    </button>
+                )}
+             </div>
           </div>
         )}
       </nav>
@@ -170,19 +261,21 @@ const Layout: React.FC = () => {
 const App: React.FC = () => {
   return (
     <HashRouter>
-      <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />} />
-          <Route path="jobs" element={<JobsPage />} />
-          <Route path="jobs/:id" element={<JobDetailPage />} />
-          <Route path="employers" element={<EmployersPage />} />
-          <Route path="job-seekers" element={<JobSeekersPage />} />
-          <Route path="about" element={<AboutPage />} />
-          <Route path="contact" element={<ContactPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Route>
-      </Routes>
+      <AuthProvider>
+        <ScrollToTop />
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<HomePage />} />
+            <Route path="jobs" element={<JobsPage />} />
+            <Route path="jobs/:id" element={<JobDetailPage />} />
+            <Route path="employers" element={<EmployersPage />} />
+            <Route path="job-seekers" element={<JobSeekersPage />} />
+            <Route path="about" element={<AboutPage />} />
+            <Route path="contact" element={<ContactPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Route>
+        </Routes>
+      </AuthProvider>
     </HashRouter>
   );
 };

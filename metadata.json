@@ -1,7 +1,6 @@
-
 {
-  "name": "Prohire Employment",
+  "name": "Copy of Prohire Employment",
   "description": "A dynamic web application for Prohire Employment, a human-in-the-loop employment agency connecting talent with opportunities. Browse jobs, learn about services for employers and job seekers, and get in touch.",
   "requestFramePermissions": [],
-  "prompt": "Corrected an inconsistency in the file path used for fetching job data. Standardized all fetch requests to use the relative path './jobs.json' for better application robustness."
+  "prompt": "add this to the first page hero section and impelement a netlify identity login"
 }
