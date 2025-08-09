@@ -213,7 +213,7 @@ export const JobDetailPage: React.FC = () => {
         setJob(undefined); // Set to loading state
         const fetchJob = async () => {
             try {
-                const response = await fetch('/jobs.json');
+                const response = await fetch('./jobs.json');
                 if (!response.ok) throw new Error('Job data not found');
                 const jobs: Job[] = await response.json();
                 const foundJob = jobs.find(j => j.id === Number(id));
