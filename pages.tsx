@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { TESTIMONIALS, TEAM_MEMBERS } from './data';
@@ -30,8 +31,8 @@ export const HomePage: React.FC = () => {
     return (
         <div className="fade-in space-y-16 md:space-y-24 pb-16">
             <section className="relative pt-24 pb-32 text-center text-white overflow-hidden">
-                 <div className="absolute inset-0 bg-gradient-to-r from-primary-700 to-primary-900 bg-[length:200%_200%] animate-gradient-bg"></div>
-                 <div className="absolute inset-0 bg-black/30"></div>
+                 <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/prohire-hero.jpg')" }}></div>
+                 <div className="absolute inset-0 bg-black/40"></div>
                  <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
                     <h1 className="text-4xl md:text-6xl font-bold tracking-tight">Connecting Talent with Opportunity</h1>
                     <p className="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-primary-200">
