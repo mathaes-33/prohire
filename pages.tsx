@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { TESTIMONIALS, TEAM_MEMBERS } from './data';
@@ -489,10 +488,35 @@ export const AboutPage: React.FC = () => {
 
 export const ContactPage: React.FC = () => {
     const [submitted, setSubmitted] = React.useState(false);
+    const [formData, setFormData] = React.useState({
+        name: '',
+        email: '',
+        subject: '',
+        message: '',
+        'bot-field': '', // for honeypot
+    });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const encode = (data: { [key: string]: string }) => {
+        return Object.keys(data)
+            .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+            .join("&");
+    };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setSubmitted(true);
+        fetch("/", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: encode({ "form-name": "contact", ...formData })
+        })
+        .then(() => setSubmitted(true))
+        .catch(error => {
+            alert("An error occurred while submitting the form: " + error);
+        });
     };
 
     return (
@@ -508,25 +532,38 @@ export const ContactPage: React.FC = () => {
                             <div role="alert" className="text-center flex flex-col items-center justify-center h-full">
                                 <h3 className="text-2xl font-semibold text-green-600 dark:text-green-400">Thank You!</h3>
                                 <p className="mt-2 text-slate-600 dark:text-slate-300">Your message has been received. We will get back to you shortly.</p>
-                                <p className="mt-1 text-sm text-slate-500">(This is a demo. No email was actually sent.)</p>
                             </div>
                         ) : (
-                            <form onSubmit={handleSubmit} className="space-y-6">
+                            <form 
+                                name="contact" 
+                                method="post" 
+                                onSubmit={handleSubmit} 
+                                data-netlify="true" 
+                                data-netlify-honeypot="bot-field" 
+                                className="space-y-6"
+                            >
+                                <input type="hidden" name="form-name" value="contact" />
+                                <div hidden>
+                                    <label>
+                                        Don’t fill this out:{' '}
+                                        <input name="bot-field" value={formData['bot-field']} onChange={handleChange} />
+                                    </label>
+                                </div>
                                 <div>
                                     <label htmlFor="name" className="block text-sm font-medium text-slate-700 dark:text-slate-300">Full Name</label>
-                                    <input type="text" name="name" id="name" required className="mt-1 block w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-slate-800" />
+                                    <input type="text" name="name" id="name" required value={formData.name} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-slate-800" />
                                 </div>
                                 <div>
                                     <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-300">Email Address</label>
-                                    <input type="email" name="email" id="email" required className="mt-1 block w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-slate-800" />
+                                    <input type="email" name="email" id="email" required value={formData.email} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-slate-800" />
                                 </div>
                                 <div>
                                     <label htmlFor="subject" className="block text-sm font-medium text-slate-700 dark:text-slate-300">Subject</label>
-                                    <input type="text" name="subject" id="subject" required className="mt-1 block w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-slate-800" />
+                                    <input type="text" name="subject" id="subject" required value={formData.subject} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-slate-800" />
                                 </div>
                                 <div>
                                     <label htmlFor="message" className="block text-sm font-medium text-slate-700 dark:text-slate-300">Message</label>
-                                    <textarea name="message" id="message" rows={4} required className="mt-1 block w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-slate-800"></textarea>
+                                    <textarea name="message" id="message" rows={4} required value={formData.message} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-slate-800"></textarea>
                                 </div>
                                 <div>
                                     <button type="submit" className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
