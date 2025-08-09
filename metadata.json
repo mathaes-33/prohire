@@ -1,6 +1,7 @@
+
 {
   "name": "Prohire Employment",
   "description": "A dynamic web application for Prohire Employment, a human-in-the-loop employment agency connecting talent with opportunities. Browse jobs, learn about services for employers and job seekers, and get in touch.",
   "requestFramePermissions": [],
-  "prompt": "change the name of the owners to Kyle Banks, Mathaes Daniels, and Scott Warnock and ommit the portraits andleave blank person icons. change the email from \"prohire-employment@gmail.com\" to \"prohireemployment@gmail.com\" and for the hero sections at the top of each page add the following images: for employers:  https://images.unsplash.com/photo-1527689368864-3a821dbccc34?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D for job seekers: https://plus.unsplash.com/premium_photo-1661765242257-5539e1d1e644?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  "prompt": "Corrected an inconsistency in the file path used for fetching job data. Standardized all fetch requests to use the relative path './jobs.json' for better application robustness."
 }
