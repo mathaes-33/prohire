@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verify your new email - ProHire Employment</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f7f7f7; margin: 0; padding: 0; }
+    .container { max-width: 600px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 8px; }
+    h1 { color: #1a1a1a; }
+    p { font-size: 16px; line-height: 1.5; color: #555; }
+    .btn { display: inline-block; background: #005bbb; color: #fff; text-decoration: none; padding: 12px 24px; border-radius: 5px; margin-top: 20px; }
+    .footer { font-size: 12px; color: #999; margin-top: 30px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Verify Your New Email</h1>
+    <p>Hi {{ .UserName }},</p>
+    <p>You recently changed your sign-in email for ProHire Employment. Please verify your new email address by clicking the link below.</p>
+    <a href="{{ .EmailChangeURL }}" class="btn">Verify New Email</a>
+    <p class="footer">If you didn’t make this change, contact our support immediately.</p>
+  </div>
+</body>
+</html>
