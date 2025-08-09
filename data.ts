@@ -30,7 +30,7 @@ export interface IconProps {
 }
 
 export const TESTIMONIALS: Testimonial[] = [
-    { quote: "Prohire Employment understood our needs perfectly and delivered exceptional candidates in record time. Their professionalism and dedication are second to none.", name: "Joana Clark", title: "Director of HR", company: "Innovatech Solutions" },
+    { quote: "Prohire Employment understood our needs perfectly and delivered exceptional candidates in record time. Their professionalism and dedication are second to none.", name: "Jane Doe", title: "Director of HR", company: "Innovatech Solutions" },
     { quote: "As a candidate, the process was seamless and transparent. The team at Prohire was supportive and truly advocated for me. I couldn't be happier in my new role.", name: "John Smith", title: "Senior Frontend Engineer", company: "Innovatech Solutions" },
     { quote: "They are true partners in talent acquisition. Their market insight and vast network have been invaluable to our company's growth.", name: "Emily White", title: "VP of Engineering", company: "Future Forward" }
 ];

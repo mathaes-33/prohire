@@ -1,22 +1,28 @@
+
+
+
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { TESTIMONIALS, TEAM_MEMBERS } from './data';
 import type { Job } from './data';
 import { Icons, JobCard, TestimonialCard, JobCardSkeleton } from './components';
 
+const fetchJobs = async (): Promise<Job[]> => {
+    const response = await fetch('/jobs.json');
+    if (!response.ok) {
+        throw new Error('Failed to load jobs data.');
+    }
+    return response.json();
+};
+
 export const HomePage: React.FC = () => {
     const [featuredJobs, setFeaturedJobs] = React.useState<Job[]>([]);
     const [isLoading, setIsLoading] = React.useState(true);
 
     React.useEffect(() => {
-        const fetchJobs = async () => {
+        const loadJobs = async () => {
             try {
-                // Assuming jobs.json is in the public folder or root
-                const response = await fetch('./jobs.json');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const allJobs: Job[] = await response.json();
+                const allJobs = await fetchJobs();
                 setFeaturedJobs(allJobs.slice(0, 3));
             } catch (error) {
                 console.error("Failed to fetch jobs:", error);
@@ -24,13 +30,13 @@ export const HomePage: React.FC = () => {
                 setIsLoading(false);
             }
         };
-        fetchJobs();
+        loadJobs();
     }, []);
 
     return (
         <div className="fade-in space-y-16 md:space-y-24 pb-16">
             <section className="relative pt-24 pb-32 text-center text-white overflow-hidden">
-                 <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/prohire-hero.jpg')" }}></div>
+                 <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')" }}></div>
                  <div className="absolute inset-0 bg-black/40"></div>
                  <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
                     <h1 className="text-4xl md:text-6xl font-bold tracking-tight">Connecting Talent with Opportunity</h1>
@@ -116,11 +122,9 @@ export const JobsPage: React.FC = () => {
     const [type, setType] = React.useState('');
     
     React.useEffect(() => {
-        const fetchJobs = async () => {
+        const loadJobs = async () => {
             try {
-                const response = await fetch('./jobs.json');
-                if (!response.ok) throw new Error('Failed to fetch jobs data.');
-                const data = await response.json();
+                const data = await fetchJobs();
                 setJobs(data);
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'An unknown error occurred.');
@@ -128,7 +132,7 @@ export const JobsPage: React.FC = () => {
                 setIsLoading(false);
             }
         };
-        fetchJobs();
+        loadJobs();
     }, []);
 
     const uniqueLocations = React.useMemo(() => [...new Set(jobs.map(job => job.location))], [jobs]);
@@ -205,17 +209,15 @@ export const JobsPage: React.FC = () => {
 };
 
 export const JobDetailPage: React.FC = () => {
-    const { id } = useParams<{ id: string }>();
+    const { id } = useParams();
     const [job, setJob] = React.useState<Job | null | undefined>(undefined);
 
     React.useEffect(() => {
         if (!id) return;
         setJob(undefined); // Set to loading state
-        const fetchJob = async () => {
+        const loadJob = async () => {
             try {
-                const response = await fetch('./jobs.json');
-                if (!response.ok) throw new Error('Job data not found');
-                const jobs: Job[] = await response.json();
+                const jobs = await fetchJobs();
                 const foundJob = jobs.find(j => j.id === Number(id));
                 setJob(foundJob || null);
             } catch (error) {
@@ -223,8 +225,12 @@ export const JobDetailPage: React.FC = () => {
                 setJob(null); // Set to not found on error
             }
         };
-        fetchJob();
+        loadJob();
     }, [id]);
+
+    if (!id) {
+        return <NotFoundPage />;
+    }
 
     if (job === undefined) {
         return (
@@ -487,38 +493,6 @@ export const AboutPage: React.FC = () => {
 };
 
 export const ContactPage: React.FC = () => {
-    const [submitted, setSubmitted] = React.useState(false);
-    const [formData, setFormData] = React.useState({
-        name: '',
-        email: '',
-        subject: '',
-        message: '',
-        'bot-field': '', // for honeypot
-    });
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
-
-    const encode = (data: { [key: string]: string }) => {
-        return Object.keys(data)
-            .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-            .join("&");
-    };
-
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        fetch("/", {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: encode({ "form-name": "contact", ...formData })
-        })
-        .then(() => setSubmitted(true))
-        .catch(error => {
-            alert("An error occurred while submitting the form: " + error);
-        });
-    };
-
     return (
         <div className="fade-in bg-slate-50 dark:bg-slate-950/50 py-16 md:py-24">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -528,50 +502,42 @@ export const ContactPage: React.FC = () => {
                 </header>
                 <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
                     <div className="bg-white dark:bg-slate-900 p-8 rounded-lg shadow-xl">
-                        {submitted ? (
-                            <div role="alert" className="text-center flex flex-col items-center justify-center h-full">
-                                <h3 className="text-2xl font-semibold text-green-600 dark:text-green-400">Thank You!</h3>
-                                <p className="mt-2 text-slate-600 dark:text-slate-300">Your message has been received. We will get back to you shortly.</p>
+                        <form
+                            name="contact"
+                            method="POST"
+                            action="/#/contact-success"
+                            data-netlify="true"
+                            data-netlify-honeypot="bot-field"
+                            className="space-y-6"
+                        >
+                            <input type="hidden" name="form-name" value="contact" />
+                            <p className="hidden">
+                                <label>
+                                    Don’t fill this out if you’re human: <input name="bot-field" />
+                                </label>
+                            </p>
+                            <div>
+                                <label htmlFor="name" className="block text-sm font-medium text-slate-700 dark:text-slate-300">Full Name</label>
+                                <input type="text" name="name" id="name" required className="mt-1 block w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-slate-800" />
                             </div>
-                        ) : (
-                            <form 
-                                name="contact" 
-                                method="post" 
-                                onSubmit={handleSubmit} 
-                                data-netlify="true" 
-                                data-netlify-honeypot="bot-field" 
-                                className="space-y-6"
-                            >
-                                <input type="hidden" name="form-name" value="contact" />
-                                <div hidden>
-                                    <label>
-                                        Don’t fill this out:{' '}
-                                        <input name="bot-field" value={formData['bot-field']} onChange={handleChange} />
-                                    </label>
-                                </div>
-                                <div>
-                                    <label htmlFor="name" className="block text-sm font-medium text-slate-700 dark:text-slate-300">Full Name</label>
-                                    <input type="text" name="name" id="name" required value={formData.name} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-slate-800" />
-                                </div>
-                                <div>
-                                    <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-300">Email Address</label>
-                                    <input type="email" name="email" id="email" required value={formData.email} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-slate-800" />
-                                </div>
-                                <div>
-                                    <label htmlFor="subject" className="block text-sm font-medium text-slate-700 dark:text-slate-300">Subject</label>
-                                    <input type="text" name="subject" id="subject" required value={formData.subject} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-slate-800" />
-                                </div>
-                                <div>
-                                    <label htmlFor="message" className="block text-sm font-medium text-slate-700 dark:text-slate-300">Message</label>
-                                    <textarea name="message" id="message" rows={4} required value={formData.message} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-slate-800"></textarea>
-                                </div>
-                                <div>
-                                    <button type="submit" className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
-                                        Send Message
-                                    </button>
-                                </div>
-                            </form>
-                        )}
+                            <div>
+                                <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-300">Email Address</label>
+                                <input type="email" name="email" id="email" required className="mt-1 block w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-slate-800" />
+                            </div>
+                            <div>
+                                <label htmlFor="subject" className="block text-sm font-medium text-slate-700 dark:text-slate-300">Subject</label>
+                                <input type="text" name="subject" id="subject" required className="mt-1 block w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-slate-800" />
+                            </div>
+                            <div>
+                                <label htmlFor="message" className="block text-sm font-medium text-slate-700 dark:text-slate-300">Message</label>
+                                <textarea name="message" id="message" rows={4} required className="mt-1 block w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-slate-800"></textarea>
+                            </div>
+                            <div>
+                                <button type="submit" className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                                    Send Message
+                                </button>
+                            </div>
+                        </form>
                     </div>
                     <div className="space-y-6">
                         <div>
@@ -588,6 +554,21 @@ export const ContactPage: React.FC = () => {
         </div>
     );
 };
+
+export const ContactSuccessPage: React.FC = () => (
+    <div className="fade-in flex items-center justify-center min-h-[60vh] text-center px-4">
+        <div>
+            <Icons.CheckCircle className="w-24 h-24 mx-auto text-green-500" />
+            <h1 className="mt-4 text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">Thank You!</h1>
+            <p className="mt-6 text-base leading-7 text-slate-600 dark:text-slate-300">Your message has been sent successfully. We will get back to you shortly.</p>
+            <div className="mt-10">
+                <Link to="/" className="rounded-md bg-primary-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600">
+                    Go back home
+                </Link>
+            </div>
+        </div>
+    </div>
+);
 
 export const NotFoundPage: React.FC = () => (
     <div className="fade-in flex items-center justify-center min-h-[60vh] text-center px-4">
