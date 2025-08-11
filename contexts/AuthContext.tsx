@@ -1,7 +1,24 @@
+
 import React, { useState, useEffect, createContext, useContext } from 'react';
 
 // This will be available globally from the script in index.html
-declare const netlifyIdentity: any;
+interface NetlifyIdentity {
+    on(event: 'init', cb: (user: NetlifyUser | null) => void): void;
+    on(event: 'login', cb: (user: NetlifyUser) => void): void;
+    on(event: 'logout', cb: () => void): void;
+    
+    off(event: 'init', cb: (user: NetlifyUser | null) => void): void;
+    off(event: 'login', cb: (user: NetlifyUser) => void): void;
+    off(event: 'logout', cb: () => void): void;
+    
+    init(): void;
+    open(): void;
+    logout(): void;
+    close(): void;
+    currentUser(): NetlifyUser | null;
+}
+
+declare const netlifyIdentity: NetlifyIdentity;
 
 // Define a specific type for the Netlify user object
 interface UserMetadata {
@@ -11,7 +28,6 @@ interface UserMetadata {
 interface NetlifyUser {
   id: string;
   email: string;
-  token: any; // Can be more specific if needed
   user_metadata: UserMetadata;
 }
 
@@ -33,7 +49,7 @@ export const useAuth = () => {
   return context;
 };
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<NetlifyUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 

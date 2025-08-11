@@ -1,8 +1,9 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { NAV_LINKS } from '../data';
 
-const Footer: React.FC = () => {
+const Footer = () => {
     const currentYear = new Date().getFullYear();
     return (
         <footer role="contentinfo" className="bg-slate-100 dark:bg-slate-950/50 border-t border-slate-200 dark:border-slate-800">

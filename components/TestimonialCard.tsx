@@ -1,7 +1,8 @@
+
 import React from 'react';
 import type { Testimonial } from '../data';
 
-const TestimonialCard: React.FC<{ testimonial: Testimonial }> = ({ testimonial }) => (
+const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => (
   <div className="bg-white dark:bg-slate-800 p-8 rounded-lg shadow-lg h-full">
     <blockquote className="text-slate-600 dark:text-slate-300 italic">
       "{testimonial.quote}"

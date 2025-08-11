@@ -15,7 +15,7 @@ import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import NotFoundPage from './pages/NotFoundPage';
 
-const App: React.FC = () => {
+const App = () => {
   return (
     <HashRouter>
       <AuthProvider>

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
@@ -9,8 +10,9 @@ interface IFormInput {
     'bot-field'?: string;
 }
 
-const ContactPage: React.FC = () => {
+const ContactPage = () => {
     const [submissionStatus, setSubmissionStatus] = React.useState<'success' | 'error' | null>(null);
+    const statusBannerRef = React.useRef<HTMLDivElement>(null);
 
     const {
         register,
@@ -21,13 +23,22 @@ const ContactPage: React.FC = () => {
         mode: 'onBlur',
     });
 
+    React.useEffect(() => {
+        if (submissionStatus) {
+            statusBannerRef.current?.focus();
+        }
+    }, [submissionStatus]);
+
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
         setSubmissionStatus(null);
         const formData = new FormData();
         formData.append('form-name', 'contact');
         
-        Object.keys(data).forEach(key => {
-            formData.append(key, (data as any)[key]);
+        (Object.keys(data) as Array<keyof IFormInput>).forEach(key => {
+            const value = data[key];
+            if (typeof value === 'string') {
+                formData.append(key, value);
+            }
         });
 
         try {
@@ -73,18 +84,20 @@ const ContactPage: React.FC = () => {
                                 </label>
                             </p>
 
-                            {submissionStatus === 'success' && (
-                                <div className="status-banner success fade-in" role="alert">
-                                    <span>Thank you! Your message has been sent.</span>
-                                    <button type="button" onClick={() => setSubmissionStatus(null)} aria-label="Close">&times;</button>
-                                </div>
-                            )}
-                            {submissionStatus === 'error' && (
-                                <div className="status-banner error fade-in" role="alert">
-                                    <span>Sorry, something went wrong. Please try again.</span>
-                                    <button type="button" onClick={() => setSubmissionStatus(null)} aria-label="Close">&times;</button>
-                                </div>
-                            )}
+                            <div ref={statusBannerRef} tabIndex={-1} className="outline-none">
+                                {submissionStatus === 'success' && (
+                                    <div className="status-banner success fade-in" role="alert">
+                                        <span>Thank you! Your message has been sent.</span>
+                                        <button type="button" onClick={() => setSubmissionStatus(null)} aria-label="Close">&times;</button>
+                                    </div>
+                                )}
+                                {submissionStatus === 'error' && (
+                                    <div className="status-banner error fade-in" role="alert">
+                                        <span>Sorry, something went wrong. Please try again.</span>
+                                        <button type="button" onClick={() => setSubmissionStatus(null)} aria-label="Close">&times;</button>
+                                    </div>
+                                )}
+                            </div>
 
                             <div>
                                 <label htmlFor="name" className="block text-sm font-medium text-slate-700 dark:text-slate-300">Full Name</label>

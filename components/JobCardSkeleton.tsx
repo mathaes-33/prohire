@@ -1,6 +1,7 @@
+
 import React from 'react';
 
-const JobCardSkeleton: React.FC = () => (
+const JobCardSkeleton = () => (
     <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden animate-pulse flex flex-col">
       <div className="p-6 flex-grow">
         <div className="flex items-start justify-between">

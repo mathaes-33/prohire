@@ -8,7 +8,7 @@ import JobCard from '../components/JobCard';
 import TestimonialCard from '../components/TestimonialCard';
 import JobCardSkeleton from '../components/JobCardSkeleton';
 
-const HomePage: React.FC = () => {
+const HomePage = () => {
     const { jobs, isLoading } = useJobs();
 
     const featuredJobs = React.useMemo(() => jobs.slice(0, 3), [jobs]);

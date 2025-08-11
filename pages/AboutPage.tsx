@@ -3,7 +3,7 @@ import React from 'react';
 import { TEAM_MEMBERS } from '../data';
 import { PlaceholderUserIcon } from '../components/PlaceholderUserIcon';
 
-const AboutPage: React.FC = () => {
+const AboutPage = () => {
     const values = [
         { name: "Integrity", description: "We operate with unwavering honesty and transparency in every interaction." },
         { name: "Partnership", description: "We build lasting relationships based on mutual trust and shared goals." },

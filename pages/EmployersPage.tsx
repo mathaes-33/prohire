@@ -1,7 +1,8 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const EmployersPage: React.FC = () => {
+const EmployersPage = () => {
     const services = [
         { name: 'Contingent Search', description: 'Flexible, success-based recruitment for non-critical roles.' },
         { name: 'Retained Search', description: 'Dedicated, exclusive search for executive and mission-critical positions.' },

@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Icons } from '../components/Icons';
 
-const JobSeekersPage: React.FC = () => {
+const JobSeekersPage = () => {
     const benefits = [ "Access to exclusive job opportunities not publicly listed.", "Personalized career coaching and resume feedback.", "Confidential representation to top employers.", "Guidance through the entire interview and negotiation process.", "No cost to you - our fees are paid by employers." ];
     const industries = ["Technology & IT", "Healthcare", "Finance & Accounting", "Sales & Marketing", "Engineering", "Human Resources"];
     return (

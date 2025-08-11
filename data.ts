@@ -1,5 +1,5 @@
 
-import type { ReactNode } from 'react';
+import type React from 'react';
 
 export interface Job {
   id: number;
@@ -25,10 +25,7 @@ export interface TeamMember {
   imageUrl: string; // Keep for semantic data, but will not be used for rendering placeholder
 }
 
-export interface IconProps {
-  className?: string;
-  [key: string]: any;
-}
+export interface IconProps extends React.SVGProps<SVGSVGElement> {}
 
 export const TESTIMONIALS: Testimonial[] = [
     { quote: "Prohire Employment understood our needs perfectly and delivered exceptional candidates in record time. Their professionalism and dedication are second to none.", name: "Jane Doe", title: "Director of HR", company: "Innovatech Solutions" },
