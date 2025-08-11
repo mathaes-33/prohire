@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useLocation, Link, NavLink } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -8,7 +9,7 @@ interface HeaderProps {
   toggleTheme: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ currentTheme, toggleTheme }) => {
+const Header = ({ currentTheme, toggleTheme }: HeaderProps) => {
   const [isMenuOpen, setMenuOpen] = React.useState(false);
   const location = useLocation();
   const { user, login, logout, isLoading } = useAuth();
@@ -17,18 +18,18 @@ const Header: React.FC<HeaderProps> = ({ currentTheme, toggleTheme }) => {
     setMenuOpen(false);
   }, [location.pathname]);
 
-  const NavLinkItem: React.FC<{ path: string, children: React.ReactNode, className?: string }> = ({ path, children, className }) => (
+  const NavLinkItem = ({ path, children, className }: { path: string, children: React.ReactNode, className?: string }) => (
     <NavLink 
       to={path} 
       className={({ isActive }) => 
-        `px-3 py-2 rounded-md text-sm font-semibold transition-colors duration-200 hover:text-primary-600 dark:hover:text-primary-400 ${className} ${isActive ? 'active' : ''}`
+        `px-3 py-2 rounded-md text-sm font-semibold transition-colors duration-200 hover:text-primary-600 dark:hover:text-primary-400 ${className || ''} ${isActive ? 'active' : ''}`
       }
     >
       {children}
     </NavLink>
   );
 
-  const AuthSection: React.FC<{ isMobile?: boolean }> = ({ isMobile = false }) => {
+  const AuthSection = ({ isMobile = false }: { isMobile?: boolean }) => {
     if (isLoading) {
         return (
             <div className={`h-10 rounded-md bg-slate-200 dark:bg-slate-700 animate-pulse ${isMobile ? 'w-full' : 'w-48'}`}></div>

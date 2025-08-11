@@ -4,8 +4,9 @@ import { useParams, Link } from 'react-router-dom';
 import { useJobs } from '../contexts/JobContext';
 import { Icons } from '../components/Icons';
 import NotFoundPage from '../pages/NotFoundPage';
+import JobDetailSkeleton from '../components/JobDetailSkeleton';
 
-const JobDetailPage: React.FC = () => {
+const JobDetailPage = () => {
     const { id } = useParams<{ id: string }>();
     const { getJobById, isLoading } = useJobs();
 
@@ -13,11 +14,7 @@ const JobDetailPage: React.FC = () => {
     const job = !isLoading && !isNaN(jobId) ? getJobById(jobId) : undefined;
 
     if (isLoading) {
-        return (
-            <div className="fade-in flex items-center justify-center min-h-[60vh]">
-                 <div className="w-16 h-16 border-4 border-primary-500 border-dashed rounded-full animate-spin"></div>
-            </div>
-        );
+        return <JobDetailSkeleton />;
     }
     
     if (isNaN(jobId) || !job) {

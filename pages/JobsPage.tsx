@@ -4,23 +4,34 @@ import { useJobs } from '../contexts/JobContext';
 import JobCard from '../components/JobCard';
 import JobCardSkeleton from '../components/JobCardSkeleton';
 
-const JobsPage: React.FC = () => {
+const JobsPage = () => {
     const { jobs, isLoading, error } = useJobs();
     const [searchTerm, setSearchTerm] = React.useState('');
+    const [debouncedSearchTerm, setDebouncedSearchTerm] = React.useState('');
     const [location, setLocation] = React.useState('');
     const [type, setType] = React.useState('');
     
     const uniqueLocations = React.useMemo(() => [...new Set(jobs.map(job => job.location))], [jobs]);
     const jobTypes = React.useMemo(() => [...new Set(jobs.map(job => job.type))], [jobs]);
 
+    React.useEffect(() => {
+        const timerId = setTimeout(() => {
+            setDebouncedSearchTerm(searchTerm);
+        }, 300);
+
+        return () => {
+            clearTimeout(timerId);
+        };
+    }, [searchTerm]);
+
     const filteredJobs = React.useMemo(() => {
         return jobs.filter(job => {
-            const matchesSearch = job.title.toLowerCase().includes(searchTerm.toLowerCase()) || job.company.toLowerCase().includes(searchTerm.toLowerCase());
+            const matchesSearch = job.title.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) || job.company.toLowerCase().includes(debouncedSearchTerm.toLowerCase());
             const matchesLocation = location ? job.location === location : true;
             const matchesType = type ? job.type === type : true;
             return matchesSearch && matchesLocation && matchesType;
         });
-    }, [jobs, searchTerm, location, type]);
+    }, [jobs, debouncedSearchTerm, location, type]);
 
     const resetFilters = () => {
         setSearchTerm('');
@@ -57,6 +68,14 @@ const JobsPage: React.FC = () => {
                     <button onClick={resetFilters} className="w-full md:w-auto px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold rounded-md hover:bg-slate-300 dark:hover:bg-slate-600 transition duration-200">
                         Reset Filters
                     </button>
+                </div>
+
+                <div className="mb-6 text-slate-600 dark:text-slate-400" role="status" aria-live="polite">
+                    {!isLoading && !error && (
+                        <span>
+                            {filteredJobs.length} {filteredJobs.length === 1 ? 'job' : 'jobs'} found.
+                        </span>
+                    )}
                 </div>
                 
                 {isLoading ? (

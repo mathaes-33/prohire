@@ -1,9 +1,10 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import type { Job } from '../data';
 import { Icons } from './Icons';
 
-const JobCard: React.FC<{ job: Job }> = ({ job }) => (
+const JobCard = ({ job }: { job: Job }) => (
   <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col">
     <div className="p-6 flex-grow">
       <div className="flex items-start justify-between">

@@ -1,7 +1,8 @@
+
 import React from 'react';
 import { Icons } from './Icons';
 
-const ScrollToTopButton: React.FC = () => {
+const ScrollToTopButton = () => {
   const [isVisible, setIsVisible] = React.useState(false);
 
   const toggleVisibility = () => {

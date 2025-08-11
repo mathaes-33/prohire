@@ -19,7 +19,7 @@ export const useJobs = () => {
   return context;
 };
 
-export const JobProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const JobProvider = ({ children }: { children: React.ReactNode }) => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

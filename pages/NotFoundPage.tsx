@@ -1,7 +1,8 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const NotFoundPage: React.FC = () => (
+const NotFoundPage = () => (
     <div className="fade-in flex items-center justify-center min-h-[60vh] text-center px-4">
         <div>
             <h1 className="text-6xl md:text-9xl font-bold text-primary-600 dark:text-primary-400">404</h1>

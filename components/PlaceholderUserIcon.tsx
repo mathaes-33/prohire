@@ -2,12 +2,11 @@
 import React from 'react';
 import type { IconProps } from '../data';
 
-export const PlaceholderUserIcon: React.FC<IconProps> = ({ className, ...props }) => (
+export const PlaceholderUserIcon = (props: IconProps) => (
     <svg 
         xmlns="http://www.w3.org/2000/svg" 
         viewBox="0 0 24 24" 
         fill="currentColor" 
-        className={className} 
         {...props}
         aria-hidden="true"
     >

@@ -1,10 +1,11 @@
+
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import ScrollToTopButton from './ScrollToTopButton';
 
-const Layout: React.FC = () => {
+const Layout = () => {
   const [theme, setTheme] = React.useState(() => {
     const savedTheme = localStorage.getItem('theme');
     const userPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;

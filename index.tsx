@@ -2,8 +2,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import 'react-router-dom'; // Placeholder to satisfy bundler if needed for type resolution
-import 'react'; // Placeholder to satisfy bundler if needed for type resolution
 
 const rootElement = document.getElementById('root');
 
